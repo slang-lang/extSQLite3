@@ -3,7 +3,7 @@
 #include "Extension.h"
 
 // Library includes
-#include <Core/Runtime/BuildInTypes/IntegerObject.h>
+//#include <Core/Runtime/BuildInTypes/IntegerObject.h>
 
 // Project includes
 #include "Sqlite3Close.h"
