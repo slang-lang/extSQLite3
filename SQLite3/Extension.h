@@ -24,7 +24,7 @@ public:
     ~Extension();
 
 public:
-    void initialize( Slang::IScope* scope );
+    void initialize( Slang::Extensions::ExtensionNamespace* scope );
     void provideMethods( Slang::Extensions::ExtensionMethods& methods );
 };
 

@@ -3,7 +3,6 @@
 #include "Extension.h"
 
 // Library includes
-//#include <Core/Runtime/BuildInTypes/IntegerObject.h>
 
 // Project includes
 #include "Sqlite3Close.h"
@@ -31,14 +30,14 @@ namespace Sqlite3 {
 
 
 Extension::Extension()
-: AExtension( "Sqlite3", "0.2.1" )
+: AExtension( "SQLite3", "0.2.2" )
 {
 	auto result = sqlite3_initialize();
 	if ( result != SQLITE_OK ) {
 		std::cerr << "Error while initializing sqlite3 extension!" << std::endl;
 	}
 
-	mName = "Sqlite3 (using libSqlite3 " + std::string( SQLITE_VERSION ) + ")";
+	mName = "SQLite3 (using libsqlite3 " + std::string( SQLITE_VERSION ) + ")";
 
 	// initialize first connection which acts as invalid handle
 	mConnections[0] = nullptr;
@@ -51,20 +50,18 @@ Extension::~Extension()
 	sqlite3_shutdown();
 }
 
-void Extension::initialize( Slang::IScope* scope )
+void Extension::initialize( Slang::Extensions::ExtensionNamespace* scope )
 {
-	//std::cout << "Extension::initialize()" << std::endl;
+   (void)scope;
 
-	(void)scope;
+   //std::cout << "Extension::initialize()" << std::endl;
 
-	// global vars/consts currently don't work for extensions :-(
-	//scope->define("SQLITE_OK", new Slang::Runtime::IntegerObject(SQLITE_OK));
+   // global vars/consts currently don't work for extensions :-(
+   scope->defineExternal( "SQLITE_OK", new Slang::Runtime::IntegerObject( SQLITE_OK ) );
 }
 
 void Extension::provideMethods( Slang::Extensions::ExtensionMethods& methods )
 {
-	assert( methods.empty() );
-
 	methods.push_back( new Sqlite3Close() );
 	methods.push_back( new Sqlite3Errcode() );
 	methods.push_back( new Sqlite3Errmsg() );
