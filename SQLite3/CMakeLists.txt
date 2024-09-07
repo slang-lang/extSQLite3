@@ -32,6 +32,7 @@ SET(HEADERS
 )
 
 SET(DEPENDENCIES
+    CoreExtensions
     sqlite3
 )
 
