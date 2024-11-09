@@ -21,10 +21,10 @@ class Sqlite3GetFieldValue : public Extensions::ExtensionMethod
 {
 public:
     Sqlite3GetFieldValue()
-    : ExtensionMethod(0, "sqlite3_get_field_value", Designtime::StringObject::TYPENAME)
+    : ExtensionMethod(0, "sqlite3_get_field_value", Designtime::StringType::TYPENAME)
     {
         ParameterList params;
-        params.push_back(Parameter::CreateDesigntime("result", Designtime::IntegerObject::TYPENAME));
+        params.push_back(Parameter::CreateDesigntime("result", Designtime::Int32Type::TYPENAME));
 
         setSignature(params);
     }
@@ -44,11 +44,11 @@ public:
                 fieldValue = mResults[param_result].getCurrentFieldValue();
             }
 
-            *result = Runtime::StringObject( fieldValue );
+            *result = Runtime::StringType( fieldValue );
         }
         catch ( std::exception& e ) {
-            Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringObject::TYPENAME, ANONYMOUS_OBJECT);
-            *data = Runtime::StringObject(std::string(e.what()));
+            Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringType::TYPENAME, ANONYMOUS_OBJECT);
+            *data = Runtime::StringType(std::string(e.what()));
 
             Controller::Instance().thread(threadId)->exception() = Runtime::ExceptionData(data, token.position());
             return Runtime::ControlFlow::Throw;
@@ -62,11 +62,11 @@ class Sqlite3GetFieldValueByIndex : public Extensions::ExtensionMethod
 {
 public:
 	Sqlite3GetFieldValueByIndex()
-	: ExtensionMethod(0, "sqlite3_get_field_value", Designtime::StringObject::TYPENAME)
+	: ExtensionMethod(0, "sqlite3_get_field_value", Designtime::StringType::TYPENAME)
 	{
 		ParameterList params;
-		params.push_back(Parameter::CreateDesigntime("result", Designtime::IntegerObject::TYPENAME));
-		params.push_back(Parameter::CreateDesigntime("field_index", Designtime::IntegerObject::TYPENAME));
+		params.push_back(Parameter::CreateDesigntime("result", Designtime::Int32Type::TYPENAME));
+		params.push_back(Parameter::CreateDesigntime("field_index", Designtime::Int32Type::TYPENAME));
 
 		setSignature(params);
 	}
@@ -87,11 +87,11 @@ public:
 				fieldValue = mResults[param_result].getFieldValueByIndex(param_field_index);
 			}
 
-			*result = Runtime::StringObject( fieldValue );
+			*result = Runtime::StringType( fieldValue );
 		}
 		catch ( std::exception& e ) {
-			Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringObject::TYPENAME, ANONYMOUS_OBJECT);
-			*data = Runtime::StringObject(std::string(e.what()));
+			Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringType::TYPENAME, ANONYMOUS_OBJECT);
+			*data = Runtime::StringType(std::string(e.what()));
 
 			Controller::Instance().thread(threadId)->exception() = Runtime::ExceptionData(data, token.position());
 			return Runtime::ControlFlow::Throw;
@@ -106,11 +106,11 @@ class Sqlite3GetFieldValueByName : public Extensions::ExtensionMethod
 {
 public:
     Sqlite3GetFieldValueByName()
-    : ExtensionMethod(0, "sqlite3_get_field_value", Designtime::StringObject::TYPENAME)
+    : ExtensionMethod(0, "sqlite3_get_field_value", Designtime::StringType::TYPENAME)
     {
         ParameterList params;
-        params.push_back(Parameter::CreateDesigntime("result", Designtime::IntegerObject::TYPENAME));
-        params.push_back(Parameter::CreateDesigntime("field_name", Designtime::StringObject::TYPENAME));
+        params.push_back(Parameter::CreateDesigntime("result", Designtime::Int32Type::TYPENAME));
+        params.push_back(Parameter::CreateDesigntime("field_name", Designtime::StringType::TYPENAME));
 
         setSignature(params);
     }
@@ -131,11 +131,11 @@ public:
                 fieldValue = mResults[param_result].getFieldValueByName(param_field_name);
             }
 
-            *result = Runtime::StringObject( fieldValue );
+            *result = Runtime::StringType( fieldValue );
         }
         catch ( std::exception& e ) {
-            Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringObject::TYPENAME, ANONYMOUS_OBJECT);
-            *data = Runtime::StringObject(std::string(e.what()));
+            Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringType::TYPENAME, ANONYMOUS_OBJECT);
+            *data = Runtime::StringType(std::string(e.what()));
 
             Controller::Instance().thread(threadId)->exception() = Runtime::ExceptionData(data, token.position());
             return Runtime::ControlFlow::Throw;
@@ -150,4 +150,3 @@ public:
 
 
 #endif
-

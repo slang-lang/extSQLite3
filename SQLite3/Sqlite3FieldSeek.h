@@ -21,11 +21,11 @@ class Sqlite3FieldSeek : public Extensions::ExtensionMethod
 {
 public:
 	Sqlite3FieldSeek()
-	: ExtensionMethod(0, "sqlite3_field_seek", Designtime::VoidObject::TYPENAME)
+	: ExtensionMethod(0, "sqlite3_field_seek", Designtime::VoidType::TYPENAME)
 	{
 		ParameterList params;
-		params.push_back(Parameter::CreateDesigntime("result", Designtime::IntegerObject::TYPENAME));
-		params.push_back(Parameter::CreateDesigntime("offset", Designtime::IntegerObject::TYPENAME));
+		params.push_back(Parameter::CreateDesigntime("result", Designtime::Int32Type::TYPENAME));
+		params.push_back(Parameter::CreateDesigntime("offset", Designtime::Int32Type::TYPENAME));
 
 		setSignature(params);
 	}
@@ -46,8 +46,8 @@ public:
 			}
 		}
 		catch ( std::exception& e ) {
-			Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringObject::TYPENAME, ANONYMOUS_OBJECT);
-			*data = Runtime::StringObject(std::string(e.what()));
+			Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringType::TYPENAME, ANONYMOUS_OBJECT);
+			*data = Runtime::StringType(std::string(e.what()));
 
 			Controller::Instance().thread(threadId)->exception() = Runtime::ExceptionData(data, token.position());
 			return Runtime::ControlFlow::Throw;

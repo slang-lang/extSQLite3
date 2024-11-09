@@ -57,7 +57,7 @@ void Extension::initialize( Slang::Extensions::ExtensionNamespace* scope )
    //std::cout << "Extension::initialize()" << std::endl;
 
    // global vars/consts currently don't work for extensions :-(
-   scope->defineExternal( "SQLITE_OK", new Slang::Runtime::IntegerObject( SQLITE_OK ) );
+   scope->defineExternal( "SQLITE_OK", new Slang::Runtime::Int32Type( SQLITE_OK ) );
 }
 
 void Extension::provideMethods( Slang::Extensions::ExtensionMethods& methods )
@@ -91,4 +91,3 @@ void Extension::provideMethods( Slang::Extensions::ExtensionMethods& methods )
 extern "C" Slang::Extensions::AExtension* factory( void ) {
 	return dynamic_cast<Slang::Extensions::AExtension*>( new Sqlite3::Extension() );
 }
-

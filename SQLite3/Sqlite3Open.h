@@ -21,10 +21,10 @@ class Sqlite3Open : public Extensions::ExtensionMethod
 {
 public:
     Sqlite3Open()
-	: ExtensionMethod(0, "sqlite3_open", Designtime::IntegerObject::TYPENAME)
+	: ExtensionMethod(0, "sqlite3_open", Designtime::Int32Type::TYPENAME)
 	{
 		ParameterList params;
-		params.push_back(Parameter::CreateDesigntime("file", Designtime::StringObject::TYPENAME));
+		params.push_back(Parameter::CreateDesigntime("file", Designtime::StringType::TYPENAME));
 
 		setSignature(params);
 	}
@@ -44,11 +44,11 @@ public:
 
 			int error = sqlite3_open(param_file.c_str(), database);
 
-			*result = Runtime::IntegerObject( static_cast<int>(error ? 0 : connection_handle) );
+			*result = Runtime::Int32Type( static_cast<int>(error ? 0 : connection_handle) );
 		}
 		catch ( std::exception& e ) {
-			Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringObject::TYPENAME, ANONYMOUS_OBJECT);
-			*data = Runtime::StringObject(std::string(e.what()));
+			Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringType::TYPENAME, ANONYMOUS_OBJECT);
+			*data = Runtime::StringType(std::string(e.what()));
 
 			Controller::Instance().thread(threadId)->exception() = Runtime::ExceptionData(data, token.position());
 			return Runtime::ControlFlow::Throw;

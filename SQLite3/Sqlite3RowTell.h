@@ -21,10 +21,10 @@ class Sqlite3RowTell : public Extensions::ExtensionMethod
 {
 public:
     Sqlite3RowTell()
-	: ExtensionMethod(0, "sqlite3_row_tell", Designtime::IntegerObject::TYPENAME)
+	: ExtensionMethod(0, "sqlite3_row_tell", Designtime::Int32Type::TYPENAME)
 	{
 		ParameterList params;
-		params.push_back(Parameter::CreateDesigntime("result", Designtime::IntegerObject::TYPENAME));
+		params.push_back(Parameter::CreateDesigntime("result", Designtime::Int32Type::TYPENAME));
 
 		setSignature(params);
 	}
@@ -45,11 +45,11 @@ public:
 			    rowIdx = (int)mResults[param_result].rowTell();
 			}
 
-			*result = Runtime::IntegerObject( rowIdx );
+			*result = Runtime::Int32Type( rowIdx );
 		}
 		catch ( std::exception& e ) {
-			Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringObject::TYPENAME, ANONYMOUS_OBJECT);
-			*data = Runtime::StringObject(std::string(e.what()));
+			Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringType::TYPENAME, ANONYMOUS_OBJECT);
+			*data = Runtime::StringType(std::string(e.what()));
 
 			Controller::Instance().thread(threadId)->exception() = Runtime::ExceptionData(data, token.position());
 			return Runtime::ControlFlow::Throw;

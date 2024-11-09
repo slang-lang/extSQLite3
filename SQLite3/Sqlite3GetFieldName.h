@@ -21,10 +21,10 @@ class Sqlite3GetFieldName : public Extensions::ExtensionMethod
 {
 public:
     Sqlite3GetFieldName()
-    : ExtensionMethod(0, "sqlite3_get_field_name", Designtime::StringObject::TYPENAME)
+    : ExtensionMethod(0, "sqlite3_get_field_name", Designtime::StringType::TYPENAME)
     {
         ParameterList params;
-        params.push_back(Parameter::CreateDesigntime("result", Designtime::IntegerObject::TYPENAME));
+        params.push_back(Parameter::CreateDesigntime("result", Designtime::Int32Type::TYPENAME));
 
         setSignature(params);
     }
@@ -44,11 +44,11 @@ public:
                 fieldName = mResults[param_result].getCurrentFieldName();
             }
 
-            *result = Runtime::StringObject( fieldName );
+            *result = Runtime::StringType( fieldName );
         }
         catch ( std::exception& e ) {
-            Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringObject::TYPENAME, ANONYMOUS_OBJECT);
-            *data = Runtime::StringObject(std::string(e.what()));
+            Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringType::TYPENAME, ANONYMOUS_OBJECT);
+            *data = Runtime::StringType(std::string(e.what()));
 
             Controller::Instance().thread(threadId)->exception() = Runtime::ExceptionData(data, token.position());
             return Runtime::ControlFlow::Throw;
@@ -63,11 +63,11 @@ class Sqlite3GetFieldNameByIndex : public Extensions::ExtensionMethod
 {
 public:
     Sqlite3GetFieldNameByIndex()
-	: ExtensionMethod(0, "sqlite3_get_field_name", Designtime::StringObject::TYPENAME)
+	: ExtensionMethod(0, "sqlite3_get_field_name", Designtime::StringType::TYPENAME)
 	{
 		ParameterList params;
-		params.push_back(Parameter::CreateDesigntime("result", Designtime::IntegerObject::TYPENAME));
-        params.push_back(Parameter::CreateDesigntime("field_index", Designtime::IntegerObject::TYPENAME));
+		params.push_back(Parameter::CreateDesigntime("result", Designtime::Int32Type::TYPENAME));
+        params.push_back(Parameter::CreateDesigntime("field_index", Designtime::Int32Type::TYPENAME));
 
 		setSignature(params);
 	}
@@ -88,11 +88,11 @@ public:
                 fieldName = mResults[param_result].getFieldNameByIndex(param_index);
             }
 
-			*result = Runtime::StringObject( fieldName );
+			*result = Runtime::StringType( fieldName );
 		}
 		catch ( std::exception& e ) {
-			Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringObject::TYPENAME, ANONYMOUS_OBJECT);
-			*data = Runtime::StringObject(std::string(e.what()));
+			Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringType::TYPENAME, ANONYMOUS_OBJECT);
+			*data = Runtime::StringType(std::string(e.what()));
 
 			Controller::Instance().thread(threadId)->exception() = Runtime::ExceptionData(data, token.position());
 			return Runtime::ControlFlow::Throw;

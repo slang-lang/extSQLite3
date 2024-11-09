@@ -21,10 +21,10 @@ class Sqlite3Errmsg : public Extensions::ExtensionMethod
 {
 public:
     Sqlite3Errmsg()
-	: ExtensionMethod(0, "sqlite3_errmsg", Designtime::StringObject::TYPENAME)
+	: ExtensionMethod(0, "sqlite3_errmsg", Designtime::StringType::TYPENAME)
 	{
 		ParameterList params;
-		params.push_back(Parameter::CreateDesigntime("handle", Designtime::IntegerObject::TYPENAME));
+		params.push_back(Parameter::CreateDesigntime("handle", Designtime::Int32Type::TYPENAME));
 
 		setSignature(params);
 	}
@@ -44,11 +44,11 @@ public:
                 errmsg = sqlite3_errmsg( mConnections[param_handle] );
             }
 
-			*result = Runtime::StringObject( errmsg );
+			*result = Runtime::StringType( errmsg );
 		}
 		catch ( std::exception& e ) {
-			Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringObject::TYPENAME, ANONYMOUS_OBJECT);
-			*data = Runtime::StringObject(std::string(e.what()));
+			Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringType::TYPENAME, ANONYMOUS_OBJECT);
+			*data = Runtime::StringType(std::string(e.what()));
 
 			Controller::Instance().thread(threadId)->exception() = Runtime::ExceptionData(data, token.position());
 			return Runtime::ControlFlow::Throw;
