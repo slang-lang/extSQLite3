@@ -3,6 +3,7 @@
 #include "Extension.h"
 
 // Library includes
+#include <iostream>
 
 // Project includes
 #include "Sqlite3Close.h"
