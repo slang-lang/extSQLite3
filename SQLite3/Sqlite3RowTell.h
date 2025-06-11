@@ -30,30 +30,21 @@ public:
 	}
 
 public:
-	Runtime::ControlFlow::E execute(Common::ThreadId threadId, const ParameterList& params, Runtime::Object* result, const Token& token)
+	Runtime::ControlFlow::E execute( const ParameterList& params, Runtime::Object* result )
 	{
 		ParameterList list = mergeParameters(params);
 
-		try {
-			ParameterList::const_iterator it = list.begin();
+		ParameterList::const_iterator it = list.begin();
 
-			int param_result = (*it++).value().toInt();
+		int param_result = (*it++).value().toInt();
 
-			int rowIdx = 0;
+		int rowIdx = 0;
 
-			if ( param_result > 0 && param_result < (int)mResults.size() ) {
-			    rowIdx = (int)mResults[param_result].rowTell();
-			}
-
-			*result = Runtime::Int32Type( rowIdx );
+		if ( param_result > 0 && param_result < (int)mResults.size() ) {
+			rowIdx = (int)mResults[param_result].rowTell();
 		}
-		catch ( std::exception& e ) {
-			Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringType::TYPENAME, ANONYMOUS_OBJECT);
-			*data = Runtime::StringType(std::string(e.what()));
 
-			Controller::Instance().thread(threadId)->exception() = Runtime::ExceptionData(data, token.position());
-			return Runtime::ControlFlow::Throw;
-		}
+		*result = Runtime::Int32Type( rowIdx );
 
 		return Runtime::ControlFlow::Normal;
 	}

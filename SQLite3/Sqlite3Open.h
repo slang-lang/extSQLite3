@@ -30,29 +30,20 @@ public:
 	}
 
 public:
-	Runtime::ControlFlow::E execute(Common::ThreadId threadId, const ParameterList& params, Runtime::Object* result, const Token& token)
+	Runtime::ControlFlow::E execute( const ParameterList& params, Runtime::Object* result )
 	{
 		ParameterList list = mergeParameters(params);
 
-		try {
-			ParameterList::const_iterator it = list.begin();
+		ParameterList::const_iterator it = list.begin();
 
-			std::string param_file = (*it++).value().toStdString();
+		std::string param_file = (*it++).value().toStdString();
 
-			size_t connection_handle = mConnections.size();
-			sqlite3** database = &mConnections[connection_handle];
+		size_t connection_handle = mConnections.size();
+		sqlite3** database = &mConnections[connection_handle];
 
-			int error = sqlite3_open(param_file.c_str(), database);
+		int error = sqlite3_open(param_file.c_str(), database);
 
-			*result = Runtime::Int32Type( static_cast<int>(error ? 0 : connection_handle) );
-		}
-		catch ( std::exception& e ) {
-			Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringType::TYPENAME, ANONYMOUS_OBJECT);
-			*data = Runtime::StringType(std::string(e.what()));
-
-			Controller::Instance().thread(threadId)->exception() = Runtime::ExceptionData(data, token.position());
-			return Runtime::ControlFlow::Throw;
-		}
+		*result = Runtime::Int32Type( static_cast<int>(error ? 0 : connection_handle) );
 
 		return Runtime::ControlFlow::Normal;
 	}
