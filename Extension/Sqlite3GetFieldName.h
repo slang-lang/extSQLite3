@@ -30,29 +30,20 @@ public:
     }
 
 public:
-    Runtime::ControlFlow::E execute(Common::ThreadId threadId, const ParameterList& params, Runtime::Object* result, const Token& token)
+    Runtime::ControlFlow::E execute( const ParameterList& params, Runtime::Object* result )
     {
         ParameterList list = mergeParameters(params);
 
-        try {
-            ParameterList::const_iterator it = list.begin();
+        ParameterList::const_iterator it = list.begin();
 
-            int param_result = (*it++).value().toInt();
+        int param_result = (*it++).value().toInt();
 
-            std::string fieldName;
-            if ( param_result > 0 && param_result < (int)mResults.size() ) {
-                fieldName = mResults[param_result].getCurrentFieldName();
-            }
-
-            *result = Runtime::StringType( fieldName );
+        std::string fieldName;
+        if ( param_result > 0 && param_result < (int)mResults.size() ) {
+            fieldName = mResults[param_result].getCurrentFieldName();
         }
-        catch ( std::exception& e ) {
-            Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringType::TYPENAME, ANONYMOUS_OBJECT);
-            *data = Runtime::StringType(std::string(e.what()));
 
-            Controller::Instance().thread(threadId)->exception() = Runtime::ExceptionData(data, token.position());
-            return Runtime::ControlFlow::Throw;
-        }
+        *result = Runtime::StringType( fieldName );
 
         return Runtime::ControlFlow::Normal;
     }
@@ -73,30 +64,21 @@ public:
 	}
 
 public:
-	Runtime::ControlFlow::E execute(Common::ThreadId threadId, const ParameterList& params, Runtime::Object* result, const Token& token)
+	Runtime::ControlFlow::E execute( const ParameterList& params, Runtime::Object* result )
 	{
 		ParameterList list = mergeParameters(params);
 
-		try {
-			ParameterList::const_iterator it = list.begin();
+        ParameterList::const_iterator it = list.begin();
 
-			int param_result = (*it++).value().toInt();
-			int param_index = (*it++).value().toInt();
+        int param_result = (*it++).value().toInt();
+        int param_index = (*it++).value().toInt();
 
-			std::string fieldName;
-            if ( param_result > 0 && param_result < (int)mResults.size() ) {
-                fieldName = mResults[param_result].getFieldNameByIndex(param_index);
-            }
+        std::string fieldName;
+        if ( param_result > 0 && param_result < (int)mResults.size() ) {
+            fieldName = mResults[param_result].getFieldNameByIndex(param_index);
+        }
 
-			*result = Runtime::StringType( fieldName );
-		}
-		catch ( std::exception& e ) {
-			Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringType::TYPENAME, ANONYMOUS_OBJECT);
-			*data = Runtime::StringType(std::string(e.what()));
-
-			Controller::Instance().thread(threadId)->exception() = Runtime::ExceptionData(data, token.position());
-			return Runtime::ControlFlow::Throw;
-		}
+        *result = Runtime::StringType( fieldName );
 
 		return Runtime::ControlFlow::Normal;
 	}

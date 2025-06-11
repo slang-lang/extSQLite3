@@ -47,40 +47,31 @@ public:
 	}
 
 public:
-	Runtime::ControlFlow::E execute(Common::ThreadId threadId, const ParameterList& params, Runtime::Object* result, const Token& token)
+	Runtime::ControlFlow::E execute( const ParameterList& params, Runtime::Object* result )
 	{
 		ParameterList list = mergeParameters(params);
 
-		try {
-			ParameterList::const_iterator it = list.begin();
+		ParameterList::const_iterator it = list.begin();
 
-            int param_handle = (*it++).value().toInt();
-			std::string param_sql = (*it++).value().toStdString();
+		int param_handle = (*it++).value().toInt();
+		std::string param_sql = (*it++).value().toStdString();
 
-			int result_handle = 0;
+		int result_handle = 0;
 
-			if ( param_handle > 0 && param_handle < (int)mConnections.size() ) {
-			    // initialize result
-			    result_handle = mResults.size();
-                mResults[result_handle] = Sqlite3Result();
+		if ( param_handle > 0 && param_handle < (int)mConnections.size() ) {
+			// initialize result
+			result_handle = mResults.size();
+			mResults[result_handle] = Sqlite3Result();
 
-                // execute query
-                int error = sqlite3_exec(mConnections[param_handle], param_sql.c_str(), callback, NULL, NULL);
-                if ( error ) {
-                    // if an error occurs we return 0, which indicates an invalid result handle
-                    result_handle = 0;
-                }
-            }
-
-			*result = Runtime::Int32Type( result_handle );
+			// execute query
+			int error = sqlite3_exec(mConnections[param_handle], param_sql.c_str(), callback, NULL, NULL);
+			if ( error ) {
+				// if an error occurs we return 0, which indicates an invalid result handle
+				result_handle = 0;
+			}
 		}
-		catch ( std::exception& e ) {
-			Runtime::Object *data = Controller::Instance().repository()->createInstance(Runtime::StringType::TYPENAME, ANONYMOUS_OBJECT);
-			*data = Runtime::StringType(std::string(e.what()));
 
-			Controller::Instance().thread(threadId)->exception() = Runtime::ExceptionData(data, token.position());
-			return Runtime::ControlFlow::Throw;
-		}
+		*result = Runtime::Int32Type( result_handle );
 
 		return Runtime::ControlFlow::Normal;
 	}
