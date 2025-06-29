@@ -3,6 +3,7 @@
 #include "Extension.h"
 
 // Library includes
+#include <cassert>
 #include <iostream>
 
 // Project includes
@@ -63,6 +64,8 @@ void Extension::initialize( Slang::Extensions::ExtensionNamespace* scope )
 
 void Extension::provideMethods( Slang::Extensions::ExtensionMethods& methods )
 {
+	assert( methods.empty() );
+
 	methods.push_back( new Sqlite3Close() );
 	methods.push_back( new Sqlite3Errcode() );
 	methods.push_back( new Sqlite3Errmsg() );

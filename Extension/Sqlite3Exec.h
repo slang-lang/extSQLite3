@@ -53,8 +53,8 @@ public:
 
 		ParameterList::const_iterator it = list.begin();
 
-		int param_handle = (*it++).value().toInt();
-		std::string param_sql = (*it++).value().toStdString();
+		auto param_handle = (*it++).value().toInt();
+		auto param_sql = (*it++).value().toStdString();
 
 		int result_handle = 0;
 

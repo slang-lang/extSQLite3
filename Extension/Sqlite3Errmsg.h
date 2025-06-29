@@ -36,7 +36,7 @@ public:
 
 		ParameterList::const_iterator it = list.begin();
 
-		int param_handle = (*it++).value().toInt();
+		auto param_handle = (*it++).value().toInt();
 
 		std::string errmsg;
 		if ( param_handle > 0 && param_handle < (int)mConnections.size() ) {

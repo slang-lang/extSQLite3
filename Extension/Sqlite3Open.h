@@ -36,7 +36,7 @@ public:
 
 		ParameterList::const_iterator it = list.begin();
 
-		std::string param_file = (*it++).value().toStdString();
+		auto param_file = (*it++).value().toStdString();
 
 		size_t connection_handle = mConnections.size();
 		sqlite3** database = &mConnections[connection_handle];

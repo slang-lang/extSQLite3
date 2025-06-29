@@ -36,7 +36,7 @@ public:
 
         ParameterList::const_iterator it = list.begin();
 
-        int param_result = (*it++).value().toInt();
+        auto param_result = (*it++).value().toInt();
 
         std::string fieldValue;
         if ( param_result > 0 && param_result < (int)mResults.size() ) {
@@ -69,8 +69,8 @@ public:
 
         ParameterList::const_iterator it = list.begin();
 
-        int param_result = (*it++).value().toInt();
-        int param_field_index = (*it++).value().toInt();
+        auto param_result = (*it++).value().toInt();
+        auto param_field_index = (*it++).value().toInt();
 
         std::string fieldValue;
         if ( param_result > 0 && param_result < (int)mResults.size() ) {
@@ -104,8 +104,8 @@ public:
 
         ParameterList::const_iterator it = list.begin();
 
-        int param_result = (*it++).value().toInt();
-        std::string param_field_name = (*it++).value().toStdString();
+        auto param_result = (*it++).value().toInt();
+        auto param_field_name = (*it++).value().toStdString();
 
         std::string fieldValue;
         if ( param_result > 0 && param_result < (int)mResults.size() ) {
