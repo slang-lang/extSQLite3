@@ -32,7 +32,7 @@ namespace Sqlite3 {
 
 
 Extension::Extension()
-: AExtension( "extSQLite3", "0.3.0" )
+: AExtension( "extSQLite3", "0.3.1" )
 {
 	auto result = sqlite3_initialize();
 	if ( result != SQLITE_OK ) {
@@ -59,7 +59,9 @@ void Extension::initialize( Slang::Extensions::ExtensionNamespace* scope )
    //std::cout << "Extension::initialize()" << std::endl;
 
    // global vars/consts currently don't work for extensions :-(
+   scope->defineExternal( "SQLITE_VERSION", new Slang::Runtime::StringType( std::string( SQLITE_VERSION ) ) );
    scope->defineExternal( "SQLITE_OK", new Slang::Runtime::Int32Type( SQLITE_OK ) );
+   // TODO: add error codes here
 }
 
 void Extension::provideMethods( Slang::Extensions::ExtensionMethods& methods )
