@@ -40,7 +40,5 @@ SET(MODULES
     slang
 )
 
-add_include(Externals)
-
 build_shared_lib(SlangSQLite3 "${MODULES}")
 

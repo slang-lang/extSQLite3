@@ -32,7 +32,7 @@ namespace Sqlite3 {
 
 
 Extension::Extension()
-: AExtension( "extSQLite3", "0.3.1" )
+: AExtension( "extSQLite3", "0.3.2" )
 {
 	auto result = sqlite3_initialize();
 	if ( result != SQLITE_OK ) {
